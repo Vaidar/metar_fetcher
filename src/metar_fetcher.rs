@@ -83,7 +83,7 @@ pub fn search_xml_for_metar(reader: &mut Reader<&[u8]>, id: &String) -> Metar {
         match reader.read_event(&mut buf) {
             Ok(Event::Start(ref e)) if e.name() == b"raw_text" => {
                 let raw_metar = reader.read_text(b"raw_text", &mut Vec::new()).expect("firck");
-                if raw_metar.starts_with(id.as_str()) {
+                if raw_metar.starts_with(id.to_uppercase().as_str()) {
                     loop {
                         nest_buf.clear();
                         let event =  reader.read_event(&mut nest_buf).unwrap();
